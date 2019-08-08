@@ -4,16 +4,16 @@
 let chartReference = null;
 
 function addDetailsListener() {
-  const details = document.querySelector(
+  const container = document.querySelector(
     "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
-  ).parentNode.parentNode;
-  if (!details) return;
+  );
+  if (!container) return;
 
-  const summary = details.getElementsByTagName("summary")[0];
+  const summary = container.parentNode;
   if (!summary) return;
 
-  const container = summary.getElementsByTagName("div")[0];
-  if (!container) return;
+  const details = summary.parentNode;
+  if (!details) return;
 
   const bars = container.getElementsByTagName("span");
   if (!bars) return;
@@ -38,15 +38,9 @@ function addDetailsListener() {
 }
 
 function insertCanvas() {
-  const details = document.querySelector(
+  const container = document.querySelector(
     "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
-  ).parentNode.parentNode;
-  if (!details) return;
-
-  const summary = details.getElementsByTagName("summary")[0];
-  if (!summary) return;
-
-  const container = summary.getElementsByTagName("div")[0];
+  );
   if (!container) return;
 
   var canvas = document.createElement("canvas");

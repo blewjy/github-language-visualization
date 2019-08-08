@@ -119,9 +119,17 @@ function renderPieChart(data) {
 // When you destroy the chart, the display is set to 'none'. So if the details is open, we need to show the chart manually.
 // I think it's probably because when you destroy the chart, the canvas goes back to the initial setting (which is display: 'none', as defined by myself in script.js)
 function makeChartVisibleIfRequired() {
-  const details = document.querySelector(
+  const container = document.querySelector(
     "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
-  ).parentNode.parentNode;
+  );
+  if (!container) return;
+
+  const summary = container.parentNode;
+  if (!summary) return;
+
+  const details = summary.parentNode;
+  if (!details) return;
+  
   if (details.hasAttribute("open")) {
     let ctx = document.getElementById("lang-chart");
     ctx.style.display = null;
