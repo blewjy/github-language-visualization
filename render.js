@@ -120,8 +120,8 @@ function renderPieChart(data) {
 // I think it's probably because when you destroy the chart, the canvas goes back to the initial setting (which is display: 'none', as defined by myself in script.js)
 function makeChartVisibleIfRequired() {
   const details = document.querySelector(
-    "div.repository-content details.details-reset"
-  );
+    "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
+  ).parentNode.parentNode;
   if (details.hasAttribute("open")) {
     let ctx = document.getElementById("lang-chart");
     ctx.style.display = null;

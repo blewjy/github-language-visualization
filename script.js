@@ -5,8 +5,8 @@ let chartReference = null;
 
 function addDetailsListener() {
   const details = document.querySelector(
-    "div.repository-content details.details-reset"
-  );
+    "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
+  ).parentNode.parentNode;
   if (!details) return;
 
   const summary = details.getElementsByTagName("summary")[0];
@@ -39,8 +39,8 @@ function addDetailsListener() {
 
 function insertCanvas() {
   const details = document.querySelector(
-    "div.repository-content details.details-reset"
-  );
+    "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
+  ).parentNode.parentNode;
   if (!details) return;
 
   const summary = details.getElementsByTagName("summary")[0];
