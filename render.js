@@ -1,6 +1,8 @@
 // Calling this function will simply render a chart based on the given chartType and data
 // Data format: an object containing three arrays: labels, values, colors
 function render(chartType, data) {
+  if (!data) return;
+
   switch (chartType) {
     case "bar":
       renderBarChart(data);
@@ -15,7 +17,9 @@ function render(chartType, data) {
 
 function renderBarChart(data) {
   if (chartReference) chartReference.destroy();
-  chartReference = new Chart(document.getElementById("lang-chart"), {
+  let canvas = document.getElementById("lang-chart")
+  canvas.height = 150;
+  chartReference = new Chart(canvas, {
     type: "bar",
     data: {
       labels: data.labels,
@@ -36,10 +40,32 @@ function renderBarChart(data) {
         yAxes: [
           {
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
+              callback: function(label) {
+                return label + "% ";
+              }
+            }
+          }
+        ],
+        xAxes: [
+          {
+            ticks: {
+              display: false
             }
           }
         ]
+      },
+      tooltips: {
+        xAlign: "center",
+        yPadding: 10,
+        xPadding: 10,
+        caretPadding: 10,
+        caretSize: 0,
+        callbacks: {
+          label: function(label) {
+            return " " + label.value + "%";
+          }
+        }
       }
     }
   });
@@ -48,7 +74,9 @@ function renderBarChart(data) {
 
 function renderPieChart(data) {
   if (chartReference) chartReference.destroy();
-  chartReference = new Chart(document.getElementById("lang-chart"), {
+  let canvas = document.getElementById("lang-chart")
+  canvas.height = 100;
+  chartReference = new Chart(canvas, {
     type: "pie",
     data: {
       labels: data.labels,
@@ -66,13 +94,22 @@ function renderPieChart(data) {
         display: false
       },
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true
-            }
+        display: false
+      },
+      tooltips: {
+        yAlign: "center",
+        xAlign: "center",
+        yPadding: 10,
+        xPadding: 10,
+        caretSize: 0,
+        callbacks: {
+          title: function(tooltipItem, data) {
+            return data["labels"][tooltipItem[0]["index"]];
+          },
+          label: function(tooltipItem, data) {
+            return " " + data["datasets"][0]["data"][tooltipItem["index"]] + "%";
           }
-        ]
+        }
       }
     }
   });

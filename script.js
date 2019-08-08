@@ -7,11 +7,16 @@ function addDetailsListener() {
   const details = document.querySelector(
     "div.repository-content details.details-reset"
   );
+  if (!details) return;
 
-  const bars = details
-    .getElementsByTagName("summary")[0]
-    .getElementsByTagName("div")[0]
-    .getElementsByTagName("span");
+  const summary = details.getElementsByTagName("summary")[0];
+  if (!summary) return;
+
+  const container = summary.getElementsByTagName("div")[0];
+  if (!container) return;
+
+  const bars = container.getElementsByTagName("span");
+  if (!bars) return;
 
   details.addEventListener("toggle", function() {
     if (details.hasAttribute("open")) {
@@ -33,16 +38,22 @@ function addDetailsListener() {
 }
 
 function insertCanvas() {
-  const details = document
-    .querySelector("div.repository-content details.details-reset")
-    .getElementsByTagName("summary")[0]
-    .getElementsByTagName("div")[0];
+  const details = document.querySelector(
+    "div.repository-content details.details-reset"
+  );
+  if (!details) return;
+
+  const summary = details.getElementsByTagName("summary")[0];
+  if (!summary) return;
+
+  const container = summary.getElementsByTagName("div")[0];
+  if (!container) return;
 
   var canvas = document.createElement("canvas");
   canvas.id = "lang-chart";
   canvas.style.display = "none";
   canvas.style.padding = "10px";
-  details.appendChild(canvas);
+  container.appendChild(canvas);
 }
 
 function getRepoData() {
@@ -57,11 +68,13 @@ function getRepoData() {
   if (!ol) return;
 
   var items = ol.getElementsByTagName("li");
+  if (!items) return;
 
   for (var i = 0; i < items.length; i++) {
     const li = items[i];
     const a =
       li.getElementsByTagName("a")[0] || li.getElementsByTagName("span")[0];
+    if (!a) return;
 
     let language = a.getElementsByClassName("lang")[0].innerHTML;
     const percent = a.getElementsByClassName("percent")[0].innerHTML;
