@@ -1,0 +1,80 @@
+"use strict";
+
+// Global variable to reference the chart on page
+let chartReference = null;
+
+function addDetailsListener() {
+  const details = document.querySelector(
+    "div.repository-content details.details-reset"
+  );
+
+  const bars = details
+    .getElementsByTagName("summary")[0]
+    .getElementsByTagName("div")[0]
+    .getElementsByTagName("span");
+
+  details.addEventListener("toggle", function() {
+    if (details.hasAttribute("open")) {
+      // When toggling open: hide span and show chart
+      console.log("Toggled open");
+      for (let bar of bars) {
+        bar.style.display = "none";
+      }
+      document.getElementById("lang-chart").style.display = null;
+    } else {
+      // When toggling close: hide chart and show spans
+      console.log("Toggled close");
+      document.getElementById("lang-chart").style.display = "none";
+      for (let bar of bars) {
+        bar.style.display = null;
+      }
+    }
+  });
+}
+
+function insertCanvas() {
+  const details = document
+    .querySelector("div.repository-content details.details-reset")
+    .getElementsByTagName("summary")[0]
+    .getElementsByTagName("div")[0];
+
+  var canvas = document.createElement("canvas");
+  canvas.id = "lang-chart";
+  canvas.style.display = "none";
+  canvas.style.padding = "10px";
+  details.appendChild(canvas);
+}
+
+function getRepoData() {
+  let data = {
+    labels: [],
+    values: [],
+    colors: []
+  };
+
+  // Parse the name of the language and the percentage and populate data and colors
+  const ol = document.querySelector("ol.repository-lang-stats-numbers");
+  if (!ol) return;
+
+  var items = ol.getElementsByTagName("li");
+
+  for (var i = 0; i < items.length; i++) {
+    const li = items[i];
+    const a =
+      li.getElementsByTagName("a")[0] || li.getElementsByTagName("span")[0];
+
+    let language = a.getElementsByClassName("lang")[0].innerHTML;
+    const percent = a.getElementsByClassName("percent")[0].innerHTML;
+    const color = a.getElementsByClassName("color-block language-color")[0]
+      .style.backgroundColor;
+
+    data.labels.push(language);
+    data.values.push(parseFloat(percent));
+    data.colors.push(color);
+  }
+
+  return data;
+}
+
+addDetailsListener();
+insertCanvas();
