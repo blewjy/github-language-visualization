@@ -13,6 +13,9 @@ function render(chartType, data) {
     case "doughnut":
       renderDoughnutChart(data);
       break;
+    case "polar":
+      renderPolarChart(data);
+      break;
     case "off":
       hideAllCharts();
       break;
@@ -165,6 +168,51 @@ function renderDoughnutChart(data) {
   });
   makeChartVisibleIfRequired();
 }
+
+function renderPolarChart(data) {
+  if (chartReference) chartReference.destroy();
+  let canvas = document.getElementById("lang-chart")
+  canvas.height = 100;
+  chartReference = new Chart(canvas, {
+    type: "polarArea",
+    data: {
+      labels: data.labels,
+      datasets: [
+        {
+          data: data.values,
+          backgroundColor: data.colors.map(color => color.slice(0, -1) + ", 0.7)"),
+          borderColor: data.colors,
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      scales: {
+        display: false
+      },
+      tooltips: {
+        yAlign: "center",
+        xAlign: "center",
+        yPadding: 10,
+        xPadding: 10,
+        caretSize: 0,
+        callbacks: {
+          title: function(tooltipItem, data) {
+            return data["labels"][tooltipItem[0]["index"]];
+          },
+          label: function(tooltipItem, data) {
+            return " " + data["datasets"][0]["data"][tooltipItem["index"]] + "%";
+          }
+        }
+      }
+    }
+  });
+  makeChartVisibleIfRequired();
+}
+
 
 function hideAllCharts() {
   let ctx = document.getElementById("lang-chart");

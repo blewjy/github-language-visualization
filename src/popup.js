@@ -1,6 +1,7 @@
 let pie = document.getElementById("pie");
 let doughnut = document.getElementById("doughnut");
 let bar = document.getElementById("bar");
+let polar = document.getElementById("polar");
 let off = document.getElementById("off");
 
 pie.onclick = function(element) {
@@ -35,6 +36,18 @@ bar.onclick = function(element) {
     });
   });
 };
+
+polar.onclick = function(element) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    chrome.storage.sync.get("chartType", function(data) {
+      if (data.chartType !== "polar") {
+        chrome.storage.sync.set({ chartType: "polar" });
+        chrome.tabs.executeScript(tabs[0].id, { file: "src/render.js" });
+      }
+    });
+  });
+};
+
 
 off.onclick = function(element) {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
