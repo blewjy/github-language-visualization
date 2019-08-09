@@ -10,6 +10,9 @@ function render(chartType, data) {
     case "pie":
       renderPieChart(data);
       break;
+    case "doughnut":
+      renderDoughnutChart(data);
+      break;
     case "off":
       hideAllCharts();
       break;
@@ -81,6 +84,50 @@ function renderPieChart(data) {
   canvas.height = 100;
   chartReference = new Chart(canvas, {
     type: "pie",
+    data: {
+      labels: data.labels,
+      datasets: [
+        {
+          data: data.values,
+          backgroundColor: data.colors,
+          borderColor: data.colors,
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      scales: {
+        display: false
+      },
+      tooltips: {
+        yAlign: "center",
+        xAlign: "center",
+        yPadding: 10,
+        xPadding: 10,
+        caretSize: 0,
+        callbacks: {
+          title: function(tooltipItem, data) {
+            return data["labels"][tooltipItem[0]["index"]];
+          },
+          label: function(tooltipItem, data) {
+            return " " + data["datasets"][0]["data"][tooltipItem["index"]] + "%";
+          }
+        }
+      }
+    }
+  });
+  makeChartVisibleIfRequired();
+}
+
+function renderDoughnutChart(data) {
+  if (chartReference) chartReference.destroy();
+  let canvas = document.getElementById("lang-chart")
+  canvas.height = 100;
+  chartReference = new Chart(canvas, {
+    type: "doughnut",
     data: {
       labels: data.labels,
       datasets: [

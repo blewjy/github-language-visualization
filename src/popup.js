@@ -1,4 +1,5 @@
 let pie = document.getElementById("pie");
+let doughnut = document.getElementById("doughnut");
 let bar = document.getElementById("bar");
 let off = document.getElementById("off");
 
@@ -7,6 +8,17 @@ pie.onclick = function(element) {
     chrome.storage.sync.get("chartType", function(data) {
       if (data.chartType !== "pie") {
         chrome.storage.sync.set({ chartType: "pie" });
+        chrome.tabs.executeScript(tabs[0].id, { file: "src/render.js" });
+      }
+    });
+  });
+};
+
+doughnut.onclick = function(element) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    chrome.storage.sync.get("chartType", function(data) {
+      if (data.chartType !== "doughnut") {
+        chrome.storage.sync.set({ chartType: "doughnut" });
         chrome.tabs.executeScript(tabs[0].id, { file: "src/render.js" });
       }
     });
