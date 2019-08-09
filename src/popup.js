@@ -6,7 +6,7 @@ pie.onclick = function(element) {
     chrome.storage.sync.get("chartType", function(data) {
       if (data.chartType !== "pie") {
         chrome.storage.sync.set({ chartType: "pie" });
-        chrome.tabs.executeScript(tabs[0].id, { file: "render.js" });
+        chrome.tabs.executeScript(tabs[0].id, { file: "src/render.js" });
       }
     });
   });
@@ -17,7 +17,7 @@ bar.onclick = function(element) {
     chrome.storage.sync.get("chartType", function(data) {
       if (data.chartType !== "bar") {
         chrome.storage.sync.set({ chartType: "bar" });
-        chrome.tabs.executeScript(tabs[0].id, { file: "render.js" });
+        chrome.tabs.executeScript(tabs[0].id, { file: "src/render.js" });
       }
     });
   });
