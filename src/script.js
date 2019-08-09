@@ -19,21 +19,21 @@ function addDetailsListener() {
   if (!bars) return;
 
   details.addEventListener("toggle", function() {
-    if (details.hasAttribute("open")) {
-      // When toggling open: hide span and show chart
-      console.log("Toggled open");
-      for (let bar of bars) {
-        bar.style.display = "none";
+    chrome.storage.sync.get("chartType", function(data) {
+      if (details.hasAttribute("open") && data.chartType !== "off") {
+        // When toggling open: hide span and show chart
+        for (let bar of bars) {
+          bar.style.display = "none";
+        }
+        document.getElementById("lang-chart").style.display = null;
+      } else {
+        // When toggling close: hide chart and show spans
+        document.getElementById("lang-chart").style.display = "none";
+        for (let bar of bars) {
+          bar.style.display = null;
+        }
       }
-      document.getElementById("lang-chart").style.display = null;
-    } else {
-      // When toggling close: hide chart and show spans
-      console.log("Toggled close");
-      document.getElementById("lang-chart").style.display = "none";
-      for (let bar of bars) {
-        bar.style.display = null;
-      }
-    }
+    });
   });
 }
 

@@ -10,6 +10,9 @@ function render(chartType, data) {
     case "pie":
       renderPieChart(data);
       break;
+    case "off":
+      hideAllCharts();
+      break;
     default:
       renderBarChart(data);
   }
@@ -114,6 +117,23 @@ function renderPieChart(data) {
     }
   });
   makeChartVisibleIfRequired();
+}
+
+function hideAllCharts() {
+  let ctx = document.getElementById("lang-chart");
+  ctx.style.display = "none";
+
+  const container = document.querySelector(
+    "div.repository-content details.details-reset summary div.d-flex.repository-lang-stats-graph"
+  );
+  if (!container) return;
+
+  const bars = container.getElementsByTagName("span");
+  if (!bars) return;
+
+  for (let bar of bars) {
+    bar.style.display = null;
+  }
 }
 
 // When you destroy the chart, the display is set to 'none'. So if the details is open, we need to show the chart manually.
